@@ -1,0 +1,214 @@
+---
+title: "Typical Employee Survey Data"
+author: "Ebrahim Basrai"
+output: html_document
+date: "2025-02-36"
+---
+
+# Heading
+## Sub heading 
+### Sub Heading 2
+#### Sub Heading  3
+#### End
+
+```{r}
+#Import CSV File. If you have an Excel file, save it as a CSV
+Typical_Employee_Survey_Data <- read.csv("/Users/ebrahimbasrai/Downloads/Typical_Employee_Survey_Data.csv",header = FALSE)
+                                         
+                                         
+##Typical_Employee_Survey_Data
+
+
+### Change the Name to make it easier to work with
+
+TESD = Typical_Employee_Survey_Data
+
+##Add column headers for each column
+
+colnames(TESD) = c("Age", "Gender", "Satisfaction", "Job Characteristics",
+"Years worked", "promotion likely hood", "decision making", "budgetary decisions",
+"proudness", "pay importance", "workplace relations")
+
+##Do 5 number summary for the two numeric columns
+
+fivenum(TESD$Age)
+fivenum(TESD$`Years worked`)
+
+##Create box plots for Numeric columns
+
+boxplot(TESD$Age, main = "Age")
+
+###The median of the data is around just under 40 years old. The data also looks relatively symmetric. There are a few outliers above 60 years old. 
+
+boxplot(TESD$`Years worked`, main = "Years Worked")
+
+###The data displays mos the date lies near and under the 10 year ranges. There are outliers over 30 years old. There is also a very small Q1 but large Q4.
+
+##Make the non numeric columns into factors
+
+TESD$Gender <- as.factor(TESD$Gender)
+TESD$Satisfaction <- as.factor(TESD$Satisfaction)
+TESD$`Job Characteristics` <- as.factor(TESD$`Job Characteristics`)
+TESD$`promotion likely hood` <- as.factor(TESD$`promotion likely hood`)
+TESD$`decision making` <- as.factor(TESD$`decision making`)
+TESD$`budgetary decisions` <- as.factor(TESD$`budgetary decisions`)
+TESD$proudness <- as.factor(TESD$proudness)
+TESD$`pay importance` <- as.factor(TESD$`pay importance`)
+TESD$`workplace relations` <- as.factor(TESD$`workplace relations`)
+
+##Create histograms for numeric columns
+
+###Age Plot
+
+hist(TESD$Age, breaks = 10, main = "Age")
+
+#### The median of the data appears to be around the age of 40 years old.
+#### The data does appear to be normally distributed with a min of 20 and a high of 64.
+####Overall the data displays a wide ranges of ages from 20-64 with most of the people being within 30-45.
+
+###Years worked plot
+
+hist(TESD$`Years worked`, breaks = 5, main = "Years worked")
+
+###The histogram displays a skewed data set where most of the people have worked under 10 years.
+###There is an outlier who has worked between 50 and 60 years. 
+###As the amount of years worked increases the frequency decreases significantly.
+
+##Creating barcharts for factors columns
+
+###Gender plot
+
+barplot(table(factor(TESD$Gender, 
+levels = c(1, 2), labels = c("M", "F"))),
+col = "blue", main = "gender distribution")
+
+###This data is showing that there is a higher frequency of males than females. 
+###The split is 70 males to 50 females. 
+
+###Satisfaction rating
+
+barplot(table(factor(TESD$Satisfaction, 
+levels = c(1, 2, 3, 4), labels = c("Very Satisfied", "Moderately Satisfied",
+"little dissatisfied", "Very dissatisfied"))),
+col = "blue", main = "Job Satisfaction")
+
+###The employees in general are either very or moderately satisfied with their job.
+###With 109 employees total in the satisfaction category and 13 in the dissatisfied group
+### it seems the company is doing well in an employee point of view. 
+
+#### Job Characteristics
+
+barplot(table(factor(TESD$`Job Characteristics`, 
+levels = c(1, 2, 3, 4,5), labels = c("income", "security",
+"Flexiblity", "Advance", "Enjoyment"))),
+col = "blue", main = "Job Characteristcs")
+
+###Based on the plot the 3 most important categories are income, advancement, and enjoyment.
+###The two least important categories are secruity and flexibility. For the future of the business
+###it would make sense to focus on improving the 3 more imporant catgeories to increase impact. 
+
+###Promotion Likelihood
+
+barplot(table(factor(TESD$`promotion likely hood`, 
+levels = c(1, 2, 3, 4,5), labels = c("Vlikely", "Likely",
+"Not sure", "Unlikely", "Vunlikley"))),
+col = "blue", main = "Promotion Likely hood")
+
+###The takeaway from this that there is about an equal amount of people who think they are unlikely 
+###and likely to be promoted. The business should look into making employees feel they can be promoted.
+###If people think they can be promoted then they will work harder. 
+
+###Decision Making
+
+barplot(table(factor(TESD$`decision making`, 
+levels = c(1, 2, 3, 4), labels = c("Always", "Most",
+"Some", "never"))),
+col = "blue", main = "Factor in Decision Making")
+
+###Most employees take part in decision making either most or some of the time. There is a very
+###small count of employees who are never involved which is a good thing. 
+
+###Budgetary Decisions
+
+barplot(table(factor(TESD$`budgetary decisions`, 
+levels = c(1, 2), labels = c("Yes", "No"))), ylim = c(0,80),
+col = "blue", main = "Budgetary Decisions")
+
+###The amount of employees that particpate in budet decision is relatively even.
+###With over 60 employees saying yes and under 60 saying no. Letting more employees 
+###have input might give more value to the company. 
+
+###Proudness Graph
+
+barplot(table(factor(TESD$proudness, 
+levels = c(1, 2, 3, 4), labels = c("Very", "Somewhat",
+"indifferent", "Not"))),
+col = "blue", main = "Proudness")
+
+###The majority of employees are somewhat proud with some being very proud.
+###On the other hand there are very few indifferent and not proud employees.  
+
+###Pay importance
+
+barplot(table(factor(TESD$`pay importance`, 
+levels = c(1, 2, 3, 4,5), labels = c("Vlikely", "Likely",
+"Not sure", "Unlikely", "Vunlikley"))), ylim = c(0,60),
+col = "blue", main = "Pay Importance")
+
+###The vast majority of the employees are opiniated on if they would leave or not.
+###The bigger chunk of employees would not turn down the job for more money. 
+###This does make sense where in the previous question income was an important charateristic.
+
+###Workplace Relations
+
+barplot(table(factor(TESD$`workplace relations`, 
+levels = c(1, 2, 3, 4), labels = c("Very", "good",
+"somewhat", "bad"))),ylim = c(0,80),
+col = "blue", main = "Workplace Relations")
+
+###The graph shows that most employees have good relations with others in the workplace.
+###On top of that the second biggest group have a very good relation. 
+###In summary most employees have good working relations with the exception of a few employees. 
+
+##Scatter Plots
+
+###Age Vs Yrs Worked
+
+plot(TESD$Age, TESD$`Years worked`, main = "Age vs Years worked")
+
+###There is a clear positive correlation with Age and years worked. 
+###There appears to a major bunch that occurs between about the age of 40 and 10 years worked. 
+
+###Age vs decision making
+
+plot(TESD$Age,as.numeric(TESD$`decision making`), col = "blue", pch = 20, main = "Age vs decision making")
+
+###The scatter plot does not show muhc of a correlation with age and decision making.
+###Although slight there does seem to be a bit more decision making as the age increases. 
+
+
+###Years worked vs promotion likelihood
+
+plot(TESD$`Years worked`,as.numeric(TESD$`promotion likely hood`), col = "blue", pch = 20, main = "Years Worked vs Promotion")
+
+
+###There is some positive correlation that can be seen with years worked and promotion likeliness.
+
+#### It appears that the more years worked means they have more faith in a promotion
+
+###Age vs job characteristics
+
+plot(TESD$Age,as.numeric(TESD$`Job Characteristics`), col = "blue", pch = 20, main = "Job characteristics vs Age")
+
+###There appears to be more importance on income for younger people. 
+###There also appears to be a higher importance of job security for younger people as well. 
+###There is more importance of advancements for older employees. 
+
+###years worked vs workplace relation
+
+plot(TESD$`Years worked`,as.numeric(TESD$`workplace relations`), col = "blue", pch = 20, main = "Years worked vs Workplace Relations")
+
+###There is a strong correlation with younger employees having better workplace relations. 
+###There is signs that older people have a bit worse of a workplace relations than others. 
+```
+

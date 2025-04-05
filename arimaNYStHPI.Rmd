@@ -1,0 +1,54 @@
+---
+title: "Arima Practice NY prices"
+author: "Ebrahim Basrai"
+date: "2025-04-04"
+output: html_document
+---
+
+```{r}
+library(fpp)
+library(fpp2)
+library(forecast)
+
+library(fpp2)
+library(forecast)
+
+NYSTHPI_data <- read.csv("/Users/ebrahimbasrai/Documents/TimeSeries/NYSTHPI.csv", stringsAsFactors = FALSE)
+colnames(NYSTHPI_data)
+
+NYSTHPI <- ts(NYSTHPI_data$NYSTHPI, start = c(1975, 1), frequency = 4)
+
+# ARIMA Modeling
+plot(NYSTHPI)
+ndiffs(NYSTHPI)
+ndiffs((diff(NYSTHPI,4)))
+tsdisplay(diff(diff(NYSTHPI,4)))
+fit <- auto.arima(NYSTHPI, trace = TRUE, stepwise = FALSE)
+fit
+
+### findings from the arima are that the timeseries are differentiated twice and uses 3 lagged terms. The 33.81 sigma is pretty low when looking at the data meaning the variance is not super high. 
+
+future <- forecast(fit, h = 5)
+plot(future, xlab = "Year", ylab = "Forecasted NY HPI", main = "ARIMA Forecast for NYSTHPI")
+
+future
+
+
+
+Acf(fit$residuals)
+Box.test(residuals(fit), lag=20, type="Ljung")
+plot.ts(residuals(fit))
+hist(fit$residuals)
+tsdiag(fit)
+
+
+# Plot forecast
+plot(future, xlab = "Year", ylab = "Forecasted NY HPI", main = "ARIMA Forecast for NYSTHPI")
+
+
+accuracy(fit)
+
+
+### The accuracy from the arima is 1.52 MAPE which is relatively decent. This means that the model is about 1.52% off in predicting the actrual value which is a good indicator for future values. 
+```
+
